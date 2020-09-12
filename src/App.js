@@ -35,17 +35,15 @@ class App extends Component {
   }
 
   onInputChange = (event) => {
-    console.log(event.target.value);
     this.setState({input: event.target.value});
   }
 
   onButtonSubmit = () => {
     this.setState({imageURL: this.state.input});
-    console.log("image url is: ", this.state.imageURL);
     // Predict the contents of an image by passing in a URL.
-    app.models.predict(Clarifai.COLOR_MODEL, 'https://samples.clarifai.com/metro-north.jpg')
+    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
     .then(response => {
-      console.log(response);
+      console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
     })
     .catch(err => {
       console.log(err);
