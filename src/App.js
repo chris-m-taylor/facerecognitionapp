@@ -30,8 +30,30 @@ class App extends Component {
     super();
     this.state = {
       input: '',
-      imageURL: ''
+      imageURL: 'https://samples.clarifai.com/face-det.jpg',
+      box: {},
     }
+  }
+
+  calculateFaceLocation = (data) => {
+    //response.outputs[0].data.regions[0].region_info.bounding_box
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width); //since this is a string and we want to do calculations with it
+    const height = Number(image.height);
+    // return an object that will change the box state
+    // the object will tell where to draw the lines on the image
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - (clarifaiFace.right_col * width),
+      bottomRow: height - (clarifaiFace.bottom_row * height)
+    }
+  }
+
+  displayFaceBox = (box) => {
+    console.log(box);
+    this.setState({box: box});
   }
 
   onInputChange = (event) => {
@@ -43,7 +65,7 @@ class App extends Component {
     // Predict the contents of an image by passing in a URL.
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
     .then(response => {
-      console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
+      this.displayFaceBox(this.calculateFaceLocation(response));
     })
     .catch(err => {
       console.log(err);
