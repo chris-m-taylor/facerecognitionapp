@@ -75,15 +75,20 @@ class App extends Component {
     });
   }
 
+  onRouteChange = (route) => {
+    this.setState({route: route});
+
+  }
+
   render() {
     return (
       <div className="App">
         <Particles className="particles" params={particlesOptions} />
         
-        <Navigation />
+        <Navigation onRouteChange={this.onRouteChange}/>
         {/* If state is signin, return signing, else return the other stuff */}
         { this.state.route === 'signin' ? 
-          <SignIn />
+          <SignIn onRouteChange={this.onRouteChange}/>
             :
           <div>
             <Logo />
