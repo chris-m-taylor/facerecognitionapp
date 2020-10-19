@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Navigation from './components/Navigation/Navigation.js';
+import SignIn from './components/SignIn/SignIn.js';
 import Logo from './components/Logo/Logo.js';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm.js';
 import Rank from './components/Rank/Rank.js';
@@ -32,6 +33,8 @@ class App extends Component {
       input: '',
       imageURL: 'https://samples.clarifai.com/face-det.jpg',
       box: {},
+      // keeps track of where we are on the page
+      route: 'signin',
     }
   }
 
@@ -76,11 +79,19 @@ class App extends Component {
     return (
       <div className="App">
         <Particles className="particles" params={particlesOptions} />
+        
         <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-        <FaceRecognition box={this.state.box} imageURL={this.state.imageURL}/>
+        {/* If state is signin, return signing, else return the other stuff */}
+        { this.state.route === 'signin' ? 
+          <SignIn />
+            :
+          <div>
+            <Logo />
+            <Rank />
+            <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+            <FaceRecognition box={this.state.box} imageURL={this.state.imageURL}/>
+          </div>
+        }
         
       </div>
     );
