@@ -34,8 +34,9 @@ class App extends Component {
       input: '',
       imageURL: 'https://samples.clarifai.com/face-det.jpg',
       box: {},
-      // keeps track of where we are on the page
-      route: 'signin',
+      route: 'signin', // keeps track of where we are on the page
+      isSignedIn: false,
+
     }
   }
 
@@ -75,30 +76,34 @@ class App extends Component {
       console.log(err);
     });
   }
-
+  // routing
   onRouteChange = (route) => {
-    this.setState({route: route});
-    console.log(route);
+    if (route === 'signout')
+    this.setState({isSignedIn: false});
+    else if (route === 'home')
+      this.setState({isSignedIn: true})
 
+    this.setState({route: route});
   }
 
   render() {
+    const {isSignedIn, imageURL, route, box} = this.state;
     return (
       <div className="App">
         <Particles className="particles" params={particlesOptions} />
         
-        <Navigation onRouteChange={this.onRouteChange}/>
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
         {/* If state is signin, return signin, else return the other stuff */}
-        { (this.state.route === 'home') 
+        { (route === 'home') 
         ? 
           <div>
             <Logo />
             <Rank />
             <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-            <FaceRecognition box={this.state.box} imageURL={this.state.imageURL}/>
+            <FaceRecognition box={box} imageURL={imageURL}/>
           </div>
         :
-          (this.state.route === 'signin') ?
+          (route === 'signin') ?
             <SignIn onRouteChange={this.onRouteChange}/>
           :
             <Register onRouteChange={this.onRouteChange}/>
