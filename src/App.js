@@ -40,6 +40,18 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    fetch('http://localhost:3000', {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }
+
   calculateFaceLocation = (data) => {
     //response.outputs[0].data.regions[0].region_info.bounding_box
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
