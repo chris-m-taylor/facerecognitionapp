@@ -58,7 +58,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000', {
+    fetch('https://quiet-caverns-27591.herokuapp.com', {
       headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -100,7 +100,7 @@ class App extends Component {
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
     .then(response => {
       if (response) {
-        fetch('http://localhost:3000/image', {
+        fetch('https://quiet-caverns-27591.herokuapp.com/image', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
