@@ -28,7 +28,7 @@ const app = new Clarifai.App({apiKey: '140fc7357402461ab4f1c014ba102ac4'});
 
 const initalState = {
   input: '',
-  imageURL: '',
+  imageURL: 'https://samples.clarifai.com/face-det.jpg',
   box: {},
   route: 'signin', // keeps track of where we are on the page
   isSignedIn: false,
